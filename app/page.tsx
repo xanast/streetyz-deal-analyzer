@@ -78,6 +78,17 @@ export default function Page() {
   const [saved, setSaved] = useState<Deal[]>([]);
   const [showInfo, setShowInfo] = useState(false);
 
+  // ✅ iOS: όταν ανοίγει modal, κλείδωσε το background scroll
+  useEffect(() => {
+    if (!showInfo) return;
+
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [showInfo]);
+
   useEffect(() => {
     const raw = localStorage.getItem("streetyz_deals_v1");
     if (raw) {
@@ -137,7 +148,7 @@ export default function Page() {
       ? "border-amber-500/40 bg-amber-500/10 text-amber-200"
       : "border-rose-500/40 bg-rose-500/10 text-rose-200";
 
-  // ✅ ONE input style so όλα τα πεδία έχουν ίδιο ύψος/στοίχιση
+  // ✅ ΕΝΙΑΙΟ input style: ίδια ύψη/στοίχιση παντού
   const inputClass =
     "h-12 rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 outline-none focus:border-zinc-600";
 
@@ -173,11 +184,7 @@ export default function Page() {
             <div className="mt-4 grid gap-3">
               <label className="grid gap-1">
                 <span className="text-sm text-zinc-400">Item</span>
-                <input
-                  className={inputClass}
-                  value={form.item}
-                  onChange={(e) => setField("item", e.target.value)}
-                />
+                <input className={inputClass} value={form.item} onChange={(e) => setField("item", e.target.value)} />
               </label>
 
               <div className="grid gap-3 sm:grid-cols-2">
@@ -202,7 +209,6 @@ export default function Page() {
                 </label>
               </div>
 
-              {/* ✅ FIX: όλα ίδια height + σωστό stretch */}
               <div className="grid gap-3 sm:grid-cols-3 items-stretch">
                 <label className="grid gap-1">
                   <span className="text-sm text-zinc-400">Προμήθεια (%)</span>
@@ -248,11 +254,7 @@ export default function Page() {
 
                 <label className="grid gap-1">
                   <span className="text-sm text-zinc-400">Σημειώσεις</span>
-                  <input
-                    className={inputClass}
-                    value={form.notes}
-                    onChange={(e) => setField("notes", e.target.value)}
-                  />
+                  <input className={inputClass} value={form.notes} onChange={(e) => setField("notes", e.target.value)} />
                 </label>
               </div>
 
@@ -343,71 +345,71 @@ export default function Page() {
         </div>
       </div>
 
+      {/* ✅ iOS-safe modal (scroll μέσα στο modal + sticky header) */}
       {showInfo && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-          onClick={() => setShowInfo(false)}
-        >
+        <div className="fixed inset-0 z-50 bg-black/70" onClick={() => setShowInfo(false)}>
           <div
-            className="w-full max-w-2xl rounded-2xl border border-zinc-800 bg-zinc-950 p-5 shadow-xl"
+            className="fixed left-1/2 top-1/2 w-[92vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-zinc-800 bg-zinc-950 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between gap-3">
+            <div className="sticky top-0 flex items-start justify-between gap-3 rounded-t-2xl border-b border-zinc-800 bg-zinc-950 p-4">
               <div>
                 <h3 className="text-lg font-semibold">Οδηγός</h3>
                 <p className="mt-1 text-sm text-zinc-400">
-                  Υπολόγισε αν αξίζει ένα deal πριν αγοράσεις. Το εργαλείο δείχνει καθαρό κέρδος, ROI και την ελάχιστη
-                  τιμή πώλησης για να μη βγεις “μέσα”.
+                  Υπολόγισε αν αξίζει ένα deal πριν αγοράσεις. Βλέπεις καθαρό κέρδος, ROI και την ελάχιστη τιμή πώλησης
+                  για να μη βγεις “μέσα”.
                 </p>
               </div>
 
               <button
                 onClick={() => setShowInfo(false)}
-                className="rounded-xl border border-zinc-700 px-3 py-2 text-sm font-semibold text-zinc-100 hover:border-zinc-500"
+                className="shrink-0 rounded-xl border border-zinc-700 px-3 py-2 text-sm font-semibold text-zinc-100 hover:border-zinc-500"
               >
                 Κλείσιμο
               </button>
             </div>
 
-            <div className="mt-5 grid gap-3 text-sm">
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
-                <div className="font-semibold">Τιμή αγοράς</div>
-                <div className="mt-1 text-zinc-400">Όσα πληρώνεις για να πάρεις το item.</div>
-              </div>
-
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
-                <div className="font-semibold">Τιμή πώλησης</div>
-                <div className="mt-1 text-zinc-400">Όσα περιμένεις να πάρεις από την πώληση.</div>
-              </div>
-
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
-                <div className="font-semibold">Προμήθεια (%)</div>
-                <div className="mt-1 text-zinc-400">
-                  Προμήθεια πλατφόρμας/marketplace (π.χ. Vinted/StockX/eBay). Υπολογίζεται πάνω στην τιμή πώλησης.
+            <div className="max-h-[75vh] overflow-y-auto overscroll-contain p-4">
+              <div className="grid gap-3 text-sm">
+                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                  <div className="font-semibold">Τιμή αγοράς</div>
+                  <div className="mt-1 text-zinc-400">Όσα πληρώνεις για να πάρεις το item.</div>
                 </div>
-              </div>
 
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
-                <div className="font-semibold">Μεταφορικά (αγορά)</div>
-                <div className="mt-1 text-zinc-400">Έξοδα που πληρώνεις όταν αγοράζεις.</div>
-              </div>
-
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
-                <div className="font-semibold">Μεταφορικά (πώληση)</div>
-                <div className="mt-1 text-zinc-400">Έξοδα που πληρώνεις εσύ όταν πουλάς (courier/συσκευασία κλπ).</div>
-              </div>
-
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
-                <div className="font-semibold">Λοιπά έξοδα</div>
-                <div className="mt-1 text-zinc-400">
-                  Οτιδήποτε άλλο: repair, καθάρισμα, κουτί, fees πληρωμών, legit check κ.ά.
+                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                  <div className="font-semibold">Τιμή πώλησης</div>
+                  <div className="mt-1 text-zinc-400">Όσα περιμένεις να πάρεις από την πώληση.</div>
                 </div>
-              </div>
 
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
-                <div className="font-semibold">Break-even (ελάχιστη τιμή πώλησης)</div>
-                <div className="mt-1 text-zinc-400">
-                  Η τιμή πώλησης όπου βγαίνεις “0€” (ούτε κέρδος ούτε ζημιά), με βάση fees & κόστη.
+                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                  <div className="font-semibold">Προμήθεια (%)</div>
+                  <div className="mt-1 text-zinc-400">
+                    Προμήθεια πλατφόρμας/marketplace (π.χ. Vinted/StockX/eBay). Υπολογίζεται πάνω στην τιμή πώλησης.
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                  <div className="font-semibold">Μεταφορικά (αγορά)</div>
+                  <div className="mt-1 text-zinc-400">Έξοδα που πληρώνεις όταν αγοράζεις.</div>
+                </div>
+
+                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                  <div className="font-semibold">Μεταφορικά (πώληση)</div>
+                  <div className="mt-1 text-zinc-400">Έξοδα που πληρώνεις εσύ όταν πουλάς (courier/συσκευασία κλπ).</div>
+                </div>
+
+                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                  <div className="font-semibold">Λοιπά έξοδα</div>
+                  <div className="mt-1 text-zinc-400">
+                    Οτιδήποτε άλλο: repair, καθάρισμα, κουτί, fees πληρωμών, legit check κ.ά.
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+                  <div className="font-semibold">Break-even (ελάχιστη τιμή πώλησης)</div>
+                  <div className="mt-1 text-zinc-400">
+                    Η τιμή πώλησης όπου βγαίνεις “0€” (ούτε κέρδος ούτε ζημιά), με βάση fees & κόστη.
+                  </div>
                 </div>
               </div>
             </div>
