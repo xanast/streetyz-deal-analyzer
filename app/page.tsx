@@ -157,12 +157,12 @@ export default function Page() {
           </div>
 
           <p className="text-zinc-400">
-            Υπολόγισε αν αξίζει ένα deal πριν το κάνεις. Δες καθαρό κέρδος, ROI και την ελάχιστη ασφαλή τιμή πώλησης
-            σε δευτερόλεπτα.
+            Υπολόγισε αν αξίζει ένα deal πριν το κάνεις. Δες καθαρό κέρδος, ROI και την ελάχιστη ασφαλή τιμή πώλησης σε
+            δευτερόλεπτα.
           </p>
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-start">
           <section className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5 shadow-sm">
             <h2 className="text-lg font-semibold">Στοιχεία</h2>
 
@@ -198,7 +198,7 @@ export default function Page() {
                 </label>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-3 items-end">
                 <label className="grid gap-1">
                   <span className="text-sm text-zinc-400">Προμήθεια (%)</span>
                   <input
@@ -265,9 +265,7 @@ export default function Page() {
           <section className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5 shadow-sm">
             <div className="flex items-start justify-between gap-3">
               <h2 className="text-lg font-semibold">Αποτέλεσμα</h2>
-              <div className={`rounded-xl border px-3 py-2 text-sm font-semibold ${toneClass}`}>
-                {verdict.label}
-              </div>
+              <div className={`rounded-xl border px-3 py-2 text-sm font-semibold ${toneClass}`}>{verdict.label}</div>
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -305,9 +303,7 @@ export default function Page() {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <div className="font-semibold">{d.item}</div>
-                      <div className="mt-1 text-xs text-zinc-400">
-                        {new Date(d.createdAt).toLocaleString()}
-                      </div>
+                      <div className="mt-1 text-xs text-zinc-400">{new Date(d.createdAt).toLocaleString()}</div>
                     </div>
                     <button
                       onClick={() => removeDeal(d.id)}
@@ -329,9 +325,7 @@ export default function Page() {
                     </div>
                   </div>
 
-                  {d.notes ? (
-                    <div className="mt-2 text-xs text-zinc-400">Σημειώσεις: {d.notes}</div>
-                  ) : null}
+                  {d.notes ? <div className="mt-2 text-xs text-zinc-400">Σημειώσεις: {d.notes}</div> : null}
                 </div>
               ))}
             </div>
@@ -339,8 +333,8 @@ export default function Page() {
         </div>
 
         <div className="mt-10 text-xs text-zinc-500">
-          iPhone: άνοιξε από Safari → Share → Add to Home Screen, σε περίπτωση που θέλεις να έχεις γρήγορη πρόσβαση
-          στην εφαρμογή. (Made by @x.anast)
+          iPhone: άνοιξε από Safari → Share → Add to Home Screen, σε περίπτωση που θέλεις να έχεις γρήγορη πρόσβαση στην
+          εφαρμογή. (Made by @x.anast)
         </div>
       </div>
 
@@ -405,7 +399,7 @@ export default function Page() {
                 </div>
               </div>
 
-              <div className="rounded-xl border border-zinc-950/40 bg-zinc-950/40 p-4">
+              <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
                 <div className="font-semibold">Break-even (ελάχιστη τιμή πώλησης)</div>
                 <div className="mt-1 text-zinc-400">
                   Η τιμή πώλησης όπου βγαίνεις “0€” (ούτε κέρδος ούτε ζημιά), με βάση fees & κόστη.
