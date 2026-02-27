@@ -145,7 +145,8 @@ export default function Page() {
           <div className="text-sm text-zinc-400">Streetyz Tools</div>
           <h1 className="text-3xl font-semibold tracking-tight">Deal Analyzer</h1>
           <p className="text-zinc-400">
-            Υπολόγισε profit / ROI / break-even πριν αγοράσεις. Κρατάει ιστορικό στο κινητό σου.
+          Υπολόγισε αν αξίζει ένα deal πριν το κάνεις.
+          Δες καθαρό κέρδος, ROI και την ελάχιστη ασφαλή τιμή πώλησης σε δευτερόλεπτα.
           </p>
         </div>
 
@@ -324,7 +325,8 @@ export default function Page() {
         </div>
 
         <div className="mt-10 text-xs text-zinc-500">
-          iPhone: άνοιξε από Safari → Share → Add to Home Screen.
+          iPhone: άνοιξε από Safari → Share → Add to Home Screen,σε περίπτωση που θέλεις να έχεις γρήγορη 
+          πρόσβαση στην εφαρμογή. ( Made by @x.anast)
         </div>
       </div>
     </main>
