@@ -137,6 +137,10 @@ export default function Page() {
       ? "border-amber-500/40 bg-amber-500/10 text-amber-200"
       : "border-rose-500/40 bg-rose-500/10 text-rose-200";
 
+  // ✅ ONE input style so όλα τα πεδία έχουν ίδιο ύψος/στοίχιση
+  const inputClass =
+    "h-12 rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 outline-none focus:border-zinc-600";
+
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
       <SwRegister />
@@ -170,7 +174,7 @@ export default function Page() {
               <label className="grid gap-1">
                 <span className="text-sm text-zinc-400">Item</span>
                 <input
-                  className="rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 outline-none focus:border-zinc-600"
+                  className={inputClass}
                   value={form.item}
                   onChange={(e) => setField("item", e.target.value)}
                 />
@@ -181,7 +185,7 @@ export default function Page() {
                   <span className="text-sm text-zinc-400">Τιμή αγοράς (€)</span>
                   <input
                     inputMode="decimal"
-                    className="rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 outline-none focus:border-zinc-600"
+                    className={inputClass}
                     value={form.buy}
                     onChange={(e) => setField("buy", e.target.value)}
                   />
@@ -191,19 +195,20 @@ export default function Page() {
                   <span className="text-sm text-zinc-400">Τιμή πώλησης (€)</span>
                   <input
                     inputMode="decimal"
-                    className="rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 outline-none focus:border-zinc-600"
+                    className={inputClass}
                     value={form.sell}
                     onChange={(e) => setField("sell", e.target.value)}
                   />
                 </label>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-3 items-end">
+              {/* ✅ FIX: όλα ίδια height + σωστό stretch */}
+              <div className="grid gap-3 sm:grid-cols-3 items-stretch">
                 <label className="grid gap-1">
                   <span className="text-sm text-zinc-400">Προμήθεια (%)</span>
                   <input
                     inputMode="decimal"
-                    className="rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 outline-none focus:border-zinc-600"
+                    className={inputClass}
                     value={form.feePct}
                     onChange={(e) => setField("feePct", e.target.value)}
                   />
@@ -213,7 +218,7 @@ export default function Page() {
                   <span className="text-sm text-zinc-400">Μεταφορικά (αγορά)</span>
                   <input
                     inputMode="decimal"
-                    className="rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 outline-none focus:border-zinc-600"
+                    className={inputClass}
                     value={form.shipBuy}
                     onChange={(e) => setField("shipBuy", e.target.value)}
                   />
@@ -223,7 +228,7 @@ export default function Page() {
                   <span className="text-sm text-zinc-400">Μεταφορικά (πώληση)</span>
                   <input
                     inputMode="decimal"
-                    className="rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 outline-none focus:border-zinc-600"
+                    className={inputClass}
                     value={form.shipSell}
                     onChange={(e) => setField("shipSell", e.target.value)}
                   />
@@ -235,7 +240,7 @@ export default function Page() {
                   <span className="text-sm text-zinc-400">Λοιπά έξοδα</span>
                   <input
                     inputMode="decimal"
-                    className="rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 outline-none focus:border-zinc-600"
+                    className={inputClass}
                     value={form.misc}
                     onChange={(e) => setField("misc", e.target.value)}
                   />
@@ -244,7 +249,7 @@ export default function Page() {
                 <label className="grid gap-1">
                   <span className="text-sm text-zinc-400">Σημειώσεις</span>
                   <input
-                    className="rounded-xl border border-zinc-800 bg-zinc-950/40 px-4 py-3 outline-none focus:border-zinc-600"
+                    className={inputClass}
                     value={form.notes}
                     onChange={(e) => setField("notes", e.target.value)}
                   />
